@@ -1,0 +1,126 @@
+﻿<UserControl x:Class="ChessTrainer.Views.Pages.CoordinatesPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ChessTrainer.Views.Pages"
+      xmlns:vm="clr-namespace:ChessTrainer.ViewModels"
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      mc:Ignorable="d" 
+      MinHeight="620" MinWidth="900">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\..\Dictionaries\CoordinatesDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Background="{StaticResource GridBG}" MinHeight="620" MinWidth="900">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="405"/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="405"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <ListBox x:Name="ListBoxChessBoard" 
+                     Grid.Row="1" Grid.Column="1"
+                     ItemsSource="{Binding Board.Cells}"
+                     SelectedItem="{Binding SelectedCell}"
+                     Style="{StaticResource ListBoxChessBoardStyle}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseUp">
+                        <i:InvokeCommandAction Command="{Binding CheckIsRightAnswer}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ListBox>
+
+
+            <ListBox x:Name="ListBoxRanks"
+                     Grid.Row="1" Grid.Column="0"
+                     Style="{StaticResource ListBoxCoordinatesRanks}"
+                     ItemsSource="{Binding Ranks}"
+                     HorizontalContentAlignment="Center"/>
+
+
+            <ListBox x:Name="ListBoxFiles"
+                     Grid.Row="2" Grid.Column="1"
+                     ItemsSource="{Binding Files}"
+                     Style="{StaticResource ListBoxCoordinatesFiles}"/>
+
+
+            <Grid x:Name="GridChangeColor"
+                  Grid.Row="2" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button x:Name="ButtonChangeColor"
+                    Grid.Row="0"
+                    Style="{StaticResource ButtonChangeColorStyle}"
+                    Command="{Binding ChangeColorCommand}"/>
+                <TextBlock Foreground="White" Grid.Row="1" Text="Тек. цвет"/>
+            </Grid>
+
+            <CheckBox x:Name="CheckBoxShowCoordinates"
+                      Grid.Row="0" Grid.Column="1"
+                      Content="Показать координаты"
+                      Style="{StaticResource CheckBoxShowCoordinatesStyle}"/>
+
+            <Grid x:Name="GridRandomCellCoordinate"
+                  Grid.Row="1" Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="4*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel x:Name="StackPanelRandomCellCoordinate"
+                            Orientation="Horizontal" HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Grid.Row="0">
+                    <TextBlock x:Name="FileOfRandomCell"
+                               Text="{Binding RandomCell.File, UpdateSourceTrigger=PropertyChanged}"
+                               Style="{StaticResource TextBlockRandomCellStyle}"/>
+                    <TextBlock x:Name="RankOfRandomCell"
+                               Text="{Binding RandomCell.Rank, UpdateSourceTrigger=PropertyChanged}"
+                               Style="{StaticResource TextBlockRandomCellStyle}"/>
+                </StackPanel>
+                
+                <Image x:Name="ImageResultSelection"
+                       Grid.Row="1" Style="{StaticResource ImageResultAnswerStyle}">
+                </Image>
+
+                <StackPanel Grid.Row="2" VerticalAlignment="Bottom">
+                    <TextBlock HorizontalAlignment="Center"
+                               Text="{Binding TickCounter}"
+                                FontSize="35" Foreground="Yellow"/>
+                    <TextBlock HorizontalAlignment="Center" Text="Время"
+                                 FontSize="35" Foreground="Wheat"/>
+                </StackPanel>
+
+                <Button Grid.Row="4" Content="Старт"
+                        Command="{Binding StartTimer}"
+                        Style="{StaticResource ButtonStartTimer}" Height="50"
+                        Margin="10 0"
+                        VerticalAlignment="Bottom"/>
+            </Grid>
+
+            <TextBlock x:Name="TextBlockCountAnswers"
+                       Grid.Row="0" Grid.Column="2"
+                       Foreground="White" FontSize="35"
+                       HorizontalAlignment="Center" VerticalAlignment="Center">
+              <Run Text="{Binding CountRightAnswers}"/>
+              <Run Text="/"/>
+              <Run Text="{Binding TotalCountAnswers}"/>      
+            </TextBlock>
+        </Grid>
+    </Grid>
+</UserControl>

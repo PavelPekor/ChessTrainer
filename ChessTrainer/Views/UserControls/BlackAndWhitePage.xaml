@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="ChessTrainer.Views.Pages.BlackAndWhitePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ChessTrainer.Views.Pages"
+      xmlns:vm="clr-namespace:ChessTrainer.ViewModels"
+      mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="..\..\Dictionaries\BlackAndWhiteDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Background="{StaticResource GridBG}" MinHeight="620" MinWidth="900">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="6*"/>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Button Grid.Column="1" Content="Старт"
+                        Command="{Binding StartTimer}"
+                        Style="{StaticResource ButtonStartTimer}" Height="50"
+                        VerticalAlignment="Bottom"/>
+                <StackPanel Grid.Column="1" Grid.Row="1"
+                            Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock 
+                           HorizontalAlignment="Right" VerticalAlignment="Center"
+                           Text="Время" Margin="0 0 10 0"
+                           FontSize="35" Foreground="Wheat"/>
+
+                    <TextBlock Grid.Column="2"
+                            HorizontalAlignment="Left" VerticalAlignment="Center"
+                            Text="{Binding TickCounter}"
+                            FontSize="35" Foreground="Yellow"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid x:Name="GridBlackAndWhiteCoordinate" VerticalAlignment="Bottom"
+                  Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="ButtonBlackAnswer"
+                        Grid.Column="0"
+                        Background="Black"
+                        HorizontalAlignment="Right"
+                        Style="{StaticResource ButtonAnswerStyle}"
+                        CommandParameter="Black"/>
+
+                <TextBlock x:Name="TextBlockRandomCellCoordinate"
+                       Grid.Column="1"
+                       FontSize="110"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center">
+                <Run Text="{Binding RandomCell.File}" Foreground="Black"/><Run Text="{Binding RandomCell.Rank}" Foreground="White"/>
+                </TextBlock>
+
+                <Button x:Name="ButtonWhiteAnswer"
+                        Grid.Column="2"
+                        Background="White"
+                        HorizontalAlignment="Left"
+                        Style="{StaticResource ButtonAnswerStyle}"
+                        CommandParameter="White"/>
+            </Grid>
+
+            <Image x:Name="ImageResultAnswer"
+                   Grid.Row="2" Stretch="Fill"
+                   Width="100" Height="70"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Style="{StaticResource ImageBaseResultAnswerStyle}"/>
+
+            <TextBlock x:Name="TextBlockCountAnswers"
+                       Grid.Row="3"
+                       FontSize="100" Foreground="White"
+                       VerticalAlignment="Top" HorizontalAlignment="Center">
+                <Run Text="{Binding CountRightAnswers}"/>
+                <Run Text="/"/>
+                <Run Text="{Binding TotalCountAnswers}"/>
+            </TextBlock>
+        </Grid>
+    </Grid>
+</UserControl>
